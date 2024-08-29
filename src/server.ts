@@ -66,6 +66,21 @@ let DB = process.env.DATABASE!
 // })
 
 const conn2 = mongoose.createConnection('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=Isyerim');
+// console.log(conn2)
+console.log(conn2)
+// conn2.listCollections().then((te)=>{
+//   console.log(te)
+// })
+// if(conn2.listCollections){
+//   if(conn2.listCollections.toArray){
+
+//     conn2.listCollections().toArray(function(err, collInfos) {
+//       // collInfos is an array of collection info objects that look like:
+//       // { name: 'test', options: {} }
+//     });
+//   }
+// }
+
 export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction, IAllTransactionModel>(
   'Transaction',
   allTransactionsSchema
