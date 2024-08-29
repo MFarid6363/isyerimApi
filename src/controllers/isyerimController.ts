@@ -43,7 +43,7 @@ const sendEmail = async (recievMail: string, content: string) => {
 // sendEmail().catch(console.error);
 
 
-console.log(getRandomCombination(products, 15))
+// console.log(getRandomCombination(products, 15))
 
 const createPaymentLink = catchAsync(async (req, res: Response) => {
   if (req.headers.Authorization == 321) {
@@ -122,7 +122,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       sendEmail(req.body.Customer.Email, isyerimresponse.data.Content).then(async () => {
         let updatedResponse = isyerimresponse.data
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
-        console.log(updatedResponse)
+        // console.log(updatedResponse)
         // console.log(isyerimresponse.data.Message)
         await Transaction.create(updatedResponse);
         return res.status(200).json({
@@ -130,7 +130,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
           data: {},
         });
       }).catch((err) => {
-        console.log(err)
+        // console.log(err)
         return res.status(400).json({
           status: "Error",
           data: "error occured",
@@ -180,8 +180,8 @@ const getTransactionDetail = catchAsync(async (req, res: Response) => {
       data: isyerimresponse,
     });
   }).catch((err) => {
-    console.log(err.response)
-    console.log('errorrrrrrrr')
+    // console.log(err.response)
+    // console.log('errorrrrrrrr')
     return res.status(400).json({
       status: "succes",
       data: err,

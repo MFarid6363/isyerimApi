@@ -29,7 +29,7 @@ let DB = process.env.DATABASE!
 mongoose.set("strictQuery", false);
 mongoose.set("strictPopulate", false);
 
-console.log(DB)
+// console.log(DB)
 
 mongoose.connect(DB).then(() => {
   console.log('DB CONNECTION SUCCESFUL');
