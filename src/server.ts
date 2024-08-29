@@ -42,7 +42,7 @@ export const conn:any =  mongoose.createConnection(DB).asPromise().then((con) =>
 }).catch(err => console.log('mongoo error', err));
 
 
-const conn2 = mongoose.createConnection('mongodb://accountAdmin01:123456789Sc+@localhost:1234/?authSource=admin').asPromise().then(() => {
+const conn2 = mongoose.createConnection('mongodb://accountAdmin01:123456789Sc+@localhost:27017/?authSource=admin').asPromise().then(() => {
   console.log('DB CONNECTION SUCcsxz 23122');
 }).catch(err => console.log('mongoo error', err));;
 
