@@ -31,16 +31,29 @@ mongoose.set("strictPopulate", false);
 
 // console.log(DB)
 
-mongoose.connect(DB).then(() => {
+// mongoose.connect(DB).then(() => {
+//   console.log('DB CONNECTION SUCCESFUL');
+// }).catch(err => console.log('mongoo error', err));
+
+const conn = mongoose.createConnection(DB).asPromise().then((con) => {
+  console.log(con)
   console.log('DB CONNECTION SUCCESFUL');
 }).catch(err => console.log('mongoo error', err));
 
-mongoose.connect(process.env.DATABASE_HOSTIGER!).then(() => {
-  console.log('DB CONNECTION suc 2121');
-}).catch(err => console.log('mongoo error', err));
+// conn.model("Transaction",require("./models/transactionModel"))
+
+const conn2 = mongoose.createConnection(process.env.DATABASE_HOSTIGER!).asPromise().then(() => {
+  console.log('DB CONNECTION SUCcsxz 23122');
+}).catch(err => console.log('mongoo error', err));;
+
+// mongoose.connect(process.env.DATABASE_HOSTIGER!).then(() => {
+//   console.log('DB CONNECTION suc 2121');
+// }).catch(err => console.log('mongoo error', err));
 
 const port = 3001;
 const server = app.listen(port, () => {
   console.log(`app running on port ${port}`);
 });
+
+
 
