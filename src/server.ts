@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import app from './app';
-import  { transactionsSchema } from './models/transactionModel';
+import { transactionsSchema } from './models/transactionModel';
 import { allTransactionsSchema } from './models/AllTransactionModel';
 import { IAllTransaction, IAllTransactionModel, ITransactionDocument, ITransactionModel } from './types/Transaction';
 // import schedule from 'node-schedule';
@@ -71,9 +71,28 @@ export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction,
   allTransactionsSchema
 );
 
-AllTransaction.find().then((it)=>{
-  console.log(it)
+AllTransaction.create({
+  "Message": "DSA",
+  "ErrorCode": "DSA",
+  "Errors": "DSA",
+  "IsDone": "DSSDA",
+  "ElapsedTime": "DSAA",
+  "Content": "dasdsadxa",
+  "CreatedAt": "dsadsadsa",
+  "Amount": "dsadsadxza"
+}).then((ds)=>{
+  console.log('success')
+  console.log(ds)
+  console.log("---find-------")
+  AllTransaction.find().then((it) => {
+    console.log(it)
+  })
+}).catch((ef)=>{
+  console.log('errrrrrrr')
+  console.log(ef)
 })
+
+
 const port = 3001;
 const server = app.listen(port, () => {
   console.log(`app running on port ${port}`);
