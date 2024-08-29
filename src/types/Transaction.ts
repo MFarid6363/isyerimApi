@@ -8,9 +8,24 @@ export interface ITransactionDocument extends Document {
     ElapsedTime: number,
     Content: string
     CreatedAt:string
+    Amount:string|number,
+    Products:String
+}
+export interface IAllTransaction extends Document {  
+    Message: string,
+    ErrorCode: number,
+    Errors: Array<any>|null,
+    IsDone: boolean,
+    ElapsedTime: number,
+    Content: string
+    CreatedAt:string
+    Amount:string|number,
 }
 
 export interface ITransactionModel extends Model<ITransactionDocument> {
+   
+}
+export interface IAllTransactionModel extends Model<IAllTransaction> {
    
 }
 

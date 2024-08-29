@@ -3,13 +3,13 @@
 
 import AppError from "../utils/appError"
 import catchAsync from "../utils/catchAsync";
-import Transaction from "../models/transactionModel";
+// import { AllTransaction } from "../server";
+// import Transaction from "../models/transactionModel";
 import axios from 'axios'
 import express, { Request, Response } from 'express';
 import getRandomCombination from "../utils/getCombinationOfProducts";
 import nodemailer from "nodemailer"
 import { dailyProducts } from "./productList";
-
 const products = dailyProducts;
 
 let configOptions = nodemailer.createTransport({
@@ -28,13 +28,13 @@ let configOptions = nodemailer.createTransport({
 
 const sendEmail = async (recievMail: string, content: string) => {
   // send mail with defined transport object
-  const info = await configOptions.sendMail({
-    from: '"Shop"<scuti-support@honey-palace.com>', // sender address
-    to: recievMail, // list of receivers
-    subject: "Scutinatural payment link", // Subject line
-    // text: "Hello world?", // plain text body
-    html: `<b>Hello  here is the link to complete payment: ${content}</b>`, // html body
-  });
+  // const info = await configOptions.sendMail({
+  //   from: '"Shop"<scuti-support@honey-palace.com>', // sender address
+  //   to: recievMail, // list of receivers
+  //   subject: "Scutinatural payment link", // Subject line
+  //   // text: "Hello world?", // plain text body
+  //   html: `<b>Hello  here is the link to complete payment: ${content}</b>`, // html body
+  // });
 
   // console.log("Message sent: %s", info.messageId);
   // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
@@ -121,16 +121,19 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       var event = new Date();
       sendEmail(req.body.Customer.Email, isyerimresponse.data.Content).then(async () => {
         let updatedResponse = isyerimresponse.data
+        updatedResponse.Amount = req.body.Amount
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
         // console.log(updatedResponse)
         // console.log(isyerimresponse.data.Message)
-        await Transaction.create(updatedResponse);
+        // await Transaction.create(updatedResponse);
+        updatedResponse.Description = "lazimli"
+        // await AllTransaction.create(updatedResponse)
         return res.status(200).json({
           status: "succes",
           data: {},
         });
       }).catch((err) => {
-        // console.log(err)
+        console.log(err)
         return res.status(400).json({
           status: "Error",
           data: "error occured",

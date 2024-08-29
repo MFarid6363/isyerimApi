@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 import { ITransactionDocument, ITransactionModel } from '../types/Transaction';
 
 
@@ -32,6 +32,13 @@ export const transactionsSchema = new Schema<ITransactionDocument>(
       type: String,
       required: true,
     },
+    Amount: {
+      type: String,
+      required: true
+    },
+    Products: {
+      type:String
+    }
   },
   {
     toJSON: { virtuals: true },
@@ -46,9 +53,9 @@ export const transactionsSchema = new Schema<ITransactionDocument>(
 // });
 
 // Mongoose modelini tanımlayın
-const Transaction: ITransactionModel = mongoose.model<ITransactionDocument, ITransactionModel>(
-  'Transaction',
-  transactionsSchema
-);
+// const Transaction: ITransactionModel = conn.model<ITransactionDocument, ITransactionModel>(
+//   'Transaction',
+//   transactionsSchema
+// );
 
-export default Transaction;
+// export default Transaction;
