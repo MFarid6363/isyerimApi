@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import app from './app';
+import Transaction, { transactionsSchema } from './models/transactionModel';
 // import schedule from 'node-schedule';
 // import authController from './controllers/authController';
 // import subClientTransactionStatusSceduler from './scedulers/subClientTransactionStatusSceduler';
@@ -35,14 +36,13 @@ mongoose.set("strictPopulate", false);
 //   console.log('DB CONNECTION SUCCESFUL');
 // }).catch(err => console.log('mongoo error', err));
 
-const conn = mongoose.createConnection(DB).asPromise().then((con) => {
-  console.log(con)
+export const conn:any =  mongoose.createConnection(DB).asPromise().then((con) => {
+  con.model("Transaction",transactionsSchema)
   console.log('DB CONNECTION SUCCESFUL');
 }).catch(err => console.log('mongoo error', err));
 
-// conn.model("Transaction",require("./models/transactionModel"))
 
-const conn2 = mongoose.createConnection(process.env.DATABASE_HOSTIGER!).asPromise().then(() => {
+const conn2 = mongoose.createConnection('mongodb://localhost:27018/betterdatabase?authSource=admin&retryWrites=true&w=majority&directConnection=true').asPromise().then(() => {
   console.log('DB CONNECTION SUCcsxz 23122');
 }).catch(err => console.log('mongoo error', err));;
 

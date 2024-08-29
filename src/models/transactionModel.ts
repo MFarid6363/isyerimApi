@@ -3,7 +3,7 @@ import { ITransactionDocument, ITransactionModel } from '../types/Transaction';
 
 
 // Mongoose Şema (Schema) tanımı
-const transactionsSchema = new Schema<ITransactionDocument>(
+export const transactionsSchema = new Schema<ITransactionDocument>(
   {
     Message: {
       type: String,
