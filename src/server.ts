@@ -73,10 +73,10 @@ export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction,
 
 AllTransaction.create({
   "Message": "DSA",
-  "ErrorCode": "DSA",
-  "Errors": "DSA",
-  "IsDone": "DSSDA",
-  "ElapsedTime": "DSAA",
+  "ErrorCode": 0,
+  "Errors": null,
+  "IsDone": true,
+  "ElapsedTime": 1,
   "Content": "dasdsadxa",
   "CreatedAt": "dsadsadsa",
   "Amount": "dsadsadxza"
