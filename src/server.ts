@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import app from './app';
+const { MongoClient } = require('mongodb');
 import { transactionsSchema } from './models/transactionModel';
 import { allTransactionsSchema } from './models/AllTransactionModel';
 import { IAllTransaction, IAllTransactionModel, ITransactionDocument, ITransactionModel } from './types/Transaction';
@@ -65,7 +66,7 @@ let DB = process.env.DATABASE!
 //   console.log("-----")
 // })
 
-const conn2 = mongoose.createConnection('mongodb://accountAdmin01:123456789Sc+@localhost:27017/?authSource=admin');
+const conn2 = mongoose.createConnection('mongodb://user:password@127.0.0.1:1234/?authSource=admin');
 // console.log(conn2)
 console.log(conn2)
 // conn2.listCollections().then((te)=>{
@@ -81,37 +82,78 @@ console.log(conn2)
 //   }
 // }
 
-export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction, IAllTransactionModel>(
-  'Transaction',
-  allTransactionsSchema
-);
+// export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction, IAllTransactionModel>(
+//   'Transaction',
+//   allTransactionsSchema
+// );
 
-AllTransaction.create({
-  "Message": "DSA",
-  "ErrorCode": 0,
-  "Errors": null,
-  "IsDone": true,
-  "ElapsedTime": 1,
-  "Content": "dasdsadxa",
-  "CreatedAt": "dsadsadsa",
-  "Amount": "dsadsadxza"
-}).then((ds)=>{
-  console.log('success')
-  console.log(ds)
-  console.log("---find-------")
-  AllTransaction.find().then((it) => {
-    console.log(it)
-  })
-}).catch((ef)=>{
-  console.log('errrrrrrr')
-  console.log(ef)
-})
+// AllTransaction.create({
+//   "Message": "DSA",
+//   "ErrorCode": 0,
+//   "Errors": null,
+//   "IsDone": true,
+//   "ElapsedTime": 1,
+//   "Content": "dasdsadxa",
+//   "CreatedAt": "dsadsadsa",
+//   "Amount": "dsadsadxza"
+// }).then((ds)=>{
+//   console.log('success')
+//   console.log(ds)
+//   console.log("---find-------")
+//   AllTransaction.find().then((it) => {
+//     console.log(it)
+//   })
+// }).catch((ef)=>{
+//   console.log('errrrrrrr')
+//   console.log(ef)
+// })
+
+
+
+const url = 'mongodb://myUserAdmin:abc123@localhost:27017';
+
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+const dbName = 'myDatabase';
+async function main() {
+  try {
+    // Connect to the MongoDB cluster
+    await client.connect();
+    console.log("Connected correctly to server");
+
+    const db = client.db(dbName);
+    
+    // Access a collection within the database
+    const collection = db.collection('testCollection');
+
+    // Insert multiple test documents
+    const result = await collection.insertMany([
+      { name: "Test Document 1", value: 123 },
+      { name: "Test Document 2", value: 456 },
+      { name: "Test Document 3", value: 789 }
+    ]);
+    console.log("Inserted documents:", result.insertedIds);
+
+    // Retrieve and print all documents from the collection
+    const documents = await collection.find({}).toArray();
+    console.log("Documents in 'testCollection':", documents);
+
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await client.close();
+  }
+}
+
+main().catch(console.error);
+
+
 
 
 const port = 3001;
 const server = app.listen(port, () => {
   console.log(`app running on port ${port}`);
 });
+
 
 
 
