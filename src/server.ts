@@ -114,7 +114,7 @@ const { MongoClient } = require('mongodb');
 // Connection URL with authentication
 console.log("1")
 
-const url = 'mongodb://myAdminUser:myAdminPassword@127.0.0.1:27017';
+const url = 'mongodb://myAppUser:myAppPassword@127.0.0.1:27017';
 const client = new MongoClient(url);
 console.log("2")
 // Database Name
