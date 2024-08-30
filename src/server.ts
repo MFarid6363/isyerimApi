@@ -113,7 +113,7 @@ console.log(conn2)
 const url = 'mongodb://myUserAdmin:abc123@localhost:27017';
 
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-const dbName = 'myDatabase';
+const dbName = 'admin';
 async function main() {
   try {
     // Connect to the MongoDB cluster
