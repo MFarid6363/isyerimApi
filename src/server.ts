@@ -65,7 +65,6 @@ let DB = process.env.DATABASE!
 //   console.log("-----")
 // })
 
-// const conn2 = mongoose.createConnection('mongodb://user:password@127.0.0.1:1234/?authSource=admin');
 // // console.log(conn2)
 // console.log(conn2)
 // conn2.listCollections().then((te)=>{
@@ -80,11 +79,12 @@ let DB = process.env.DATABASE!
 //     });
 //   }
 // }
+const conn2 = mongoose.createConnection('mongodb://user:password@127.0.0.1:1234/?authSource=admin');
 
-// export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction, IAllTransactionModel>(
-//   'Transaction',
-//   allTransactionsSchema
-// );
+export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction, IAllTransactionModel>(
+  'Transaction',
+  allTransactionsSchema
+);
 
 // AllTransaction.create({
 //   "Message": "DSA",
@@ -109,61 +109,61 @@ let DB = process.env.DATABASE!
 
 
 
-const { MongoClient } = require('mongodb');
+// const { MongoClient } = require('mongodb');
 
-// Connection URL with authentication
-console.log("1")
+// // Connection URL with authentication
+// console.log("1")
 
-const url = 'mongodb://myAdminUser:myAdminPassword@127.0.0.1:27017';
-const client = new MongoClient(url);
-console.log("2")
-// Database Name
-const dbName = 'myDatabase';
+// const url = 'mongodb://myAdminUser:myAdminPassword@127.0.0.1:27017';
+// const client = new MongoClient(url);
+// console.log("2")
+// // Database Name
+// const dbName = 'myDatabase';
 
-async function main() {
-  try {
+// async function main() {
+//   try {
 
-    console.log("33")
-    console.log("33")
-    console.log("33")
-    console.log("33")
+//     console.log("33")
+//     console.log("33")
+//     console.log("33")
+//     console.log("33")
 
-    // Connect to the MongoDB cluster
-    await client.connect();
-    console.log('succfesssss ------')
+//     // Connect to the MongoDB cluster
+//     await client.connect();
+//     console.log('succfesssss ------')
 
-    console.log("Connected correctly to server");
+//     console.log("Connected correctly to server");
 
-    // Access the specified database
-    const db = client.db(dbName);
-    
-    console.log("4")
+//     // Access the specified database
+//     const db = client.db(dbName);
 
-    // Access or create a collection within the database
-    const collection = db.collection('testCollection');
-    console.log("5")
+//     console.log("4")
 
-    // Insert multiple test documents
-    const result = await collection.insertMany([
-      { name: "Test Document 1", value: 123 },
-      { name: "Test Document 2", value: 456 },
-      { name: "Test Document 3", value: 789 }
-    ]);
-    console.log("Inserted documents:", result.insertedIds);
+//     // Access or create a collection within the database
+//     const collection = db.collection('testCollection');
+//     console.log("5")
 
-    // Retrieve and print all documents from the collection
-    const documents = await collection.find({}).toArray();
-    console.log("Documents in 'testCollection':", documents);
+//     // Insert multiple test documents
+//     const result = await collection.insertMany([
+//       { name: "Test Document 1", value: 123 },
+//       { name: "Test Document 2", value: 456 },
+//       { name: "Test Document 3", value: 789 }
+//     ]);
+//     console.log("Inserted documents:", result.insertedIds);
 
-  } catch (err) {
-    console.log('bir errorrrrr')
-    console.error(err);
-  } finally {
-    await client.close();
-  }
-}
+//     // Retrieve and print all documents from the collection
+//     const documents = await collection.find({}).toArray();
+//     console.log("Documents in 'testCollection':", documents);
 
-main().catch((err)=>{console.log("2 erorrrrrr");console.log(err)});
+//   } catch (err) {
+//     console.log('bir errorrrrr')
+//     console.error(err);
+//   } finally {
+//     await client.close();
+//   }
+// }
+
+// main().catch((err)=>{console.log("2 erorrrrrr");console.log(err)});
 
 
 
