@@ -122,6 +122,8 @@ async function main() {
   try {
     // Connect to the MongoDB cluster
     await client.connect();
+    console.log('succfesssss ------')
+
     console.log("Connected correctly to server");
 
     // Access the specified database
@@ -143,13 +145,14 @@ async function main() {
     console.log("Documents in 'testCollection':", documents);
 
   } catch (err) {
+    console.log('bir errorrrrr')
     console.error(err);
   } finally {
     await client.close();
   }
 }
 
-main().catch(console.error);
+main().catch((err)=>{console.log("2 erorrrrrr");console.log(err)});
 
 
 
