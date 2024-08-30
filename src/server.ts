@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import app from './app';
-const { MongoClient } = require('mongodb');
 import { transactionsSchema } from './models/transactionModel';
 import { allTransactionsSchema } from './models/AllTransactionModel';
 import { IAllTransaction, IAllTransactionModel, ITransactionDocument, ITransactionModel } from './types/Transaction';
@@ -110,19 +109,25 @@ console.log(conn2)
 
 
 
-const url = 'mongodb://myUserAdmin:abc123@localhost:27017';
+const { MongoClient } = require('mongodb');
 
-const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-const dbName = 'admin';
+// Connection URL with authentication
+const url = 'mongodb://myUserAdmin:abc123@localhost:27017';
+const client = new MongoClient(url);
+
+// Database Name
+const dbName = 'myDatabase';
+
 async function main() {
   try {
     // Connect to the MongoDB cluster
     await client.connect();
     console.log("Connected correctly to server");
 
+    // Access the specified database
     const db = client.db(dbName);
     
-    // Access a collection within the database
+    // Access or create a collection within the database
     const collection = db.collection('testCollection');
 
     // Insert multiple test documents
