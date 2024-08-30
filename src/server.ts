@@ -118,7 +118,7 @@ const url = 'mongodb://myAdminUser:myAdminPassword@127.0.0.1:27017';
 const client = new MongoClient(url);
 console.log("2")
 // Database Name
-const dbName = 'admin';
+const dbName = 'myDatabase';
 
 async function main() {
   try {
