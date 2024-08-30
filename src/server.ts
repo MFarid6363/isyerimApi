@@ -79,7 +79,7 @@ let DB = process.env.DATABASE!
 //     });
 //   }
 // }
-const conn2 = mongoose.createConnection('mongodb://myAdminUser:myAdminPassword@127.0.0.1:1234/?authSource=admin');
+const conn2 = mongoose.createConnection('mongodb://myAdminUser:myAdminPassword@127.0.0.1:27017?authSource=admin');
 conn2.on('error', (err) => {
   console.error('Connection error:', err);
 });
