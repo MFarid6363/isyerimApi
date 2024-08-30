@@ -88,6 +88,7 @@ conn2.once('open', () => {
   console.log('Connection established successfully');
 });
 
+conn2.collection("Transaction")
 export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction, IAllTransactionModel>(
   'Transaction',
   allTransactionsSchema
