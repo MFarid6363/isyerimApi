@@ -38,10 +38,10 @@ let DB = process.env.DATABASE!
 // //   console.log('DB CONNECTION SUCCESFUL');
 // // }).catch(err => console.log('mongoo error', err));
 
-// export const conn: any = mongoose.createConnection(DB).asPromise().then((con) => {
-//   con.model("Transaction", transactionsSchema)
-//   console.log('DB CONNECTION SUCCESFUL');
-// }).catch(err => console.log('mongoo error', err));
+export const conn: any = mongoose.createConnection(DB).asPromise().then((con) => {
+  con.model("Transaction", transactionsSchema)
+  console.log('DB CONNECTION SUCCESFUL');
+}).catch(err => console.log('mongoo error', err));
 
 
 // const conn2 = mongoose.createConnection('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.0').asPromise().then((con) => {
@@ -94,26 +94,26 @@ export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction,
   allTransactionsSchema
 );
 
-AllTransaction.create({
-  "Message": "DSA",
-  "ErrorCode": 0,
-  "Errors": null,
-  "IsDone": true,
-  "ElapsedTime": 1,
-  "Content": "dasdsadxa",
-  "CreatedAt": "dsadsadsa",
-  "Amount": "dsadsadxza"
-}).then((ds)=>{
-  console.log('success')
-  console.log(ds)
-  console.log("---find-------")
-  AllTransaction.find().then((it) => {
-    console.log(it)
-  })
-}).catch((ef)=>{
-  console.log('errrrrrrr')
-  console.log(ef)
-})
+// AllTransaction.create({
+//   "Message": "DSA",
+//   "ErrorCode": 0,
+//   "Errors": null,
+//   "IsDone": true,
+//   "ElapsedTime": 1,
+//   "Content": "dasdsadxa",
+//   "CreatedAt": "dsadsadsa",
+//   "Amount": "dsadsadxza"
+// }).then((ds)=>{
+//   console.log('success')
+//   console.log(ds)
+//   console.log("---find-------")
+//   AllTransaction.find().then((it) => {
+//     console.log(it)
+//   })
+// }).catch((ef)=>{
+//   console.log('errrrrrrr')
+//   console.log(ef)
+// })
 
 
 
