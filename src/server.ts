@@ -112,14 +112,18 @@ console.log(conn2)
 const { MongoClient } = require('mongodb');
 
 // Connection URL with authentication
+console.log("1")
+
 const url = 'mongodb://myUserAdmin:abc123@localhost:27017';
 const client = new MongoClient(url);
-
+console.log("2")
 // Database Name
 const dbName = 'myDatabase';
 
 async function main() {
   try {
+    console.log("3")
+
     // Connect to the MongoDB cluster
     await client.connect();
     console.log('succfesssss ------')
@@ -129,8 +133,11 @@ async function main() {
     // Access the specified database
     const db = client.db(dbName);
     
+    console.log("4")
+
     // Access or create a collection within the database
     const collection = db.collection('testCollection');
+    console.log("5")
 
     // Insert multiple test documents
     const result = await collection.insertMany([
