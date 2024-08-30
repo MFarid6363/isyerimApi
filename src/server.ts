@@ -54,19 +54,19 @@ let DB = process.env.DATABASE!
 // }).catch(err => console.log('mongoo error', err));
 
 
-// const conn = mongoose.createConnection(DB);
-// export const Transaction: ITransactionModel = conn.model<ITransactionDocument, ITransactionModel>(
-//   'Transaction',
-//   transactionsSchema
-// );
+const conn = mongoose.createConnection(DB);
+export const Transaction: ITransactionModel = conn.model<ITransactionDocument, ITransactionModel>(
+  'Transaction',
+  transactionsSchema
+);
 // Transaction.find().then((it)=>{
 //   console.log("-----")
 //   console.log(it)
 //   console.log("-----")
 // })
 
-// const conn2 = mongoose.createConnection('mongodb://user:password@127.0.0.1:1234/?authSource=admin');
-// // console.log(conn2)
+const conn2 = mongoose.createConnection('mongodb://myAdminUser:myAdminPassword@127.0.0.1:27017');
+// console.log(conn2)
 // console.log(conn2)
 // conn2.listCollections().then((te)=>{
 //   console.log(te)
@@ -81,97 +81,97 @@ let DB = process.env.DATABASE!
 //   }
 // }
 
-// export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction, IAllTransactionModel>(
-//   'Transaction',
-//   allTransactionsSchema
-// );
+export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction, IAllTransactionModel>(
+  'Transaction',
+  allTransactionsSchema
+);
 
-// AllTransaction.create({
-//   "Message": "DSA",
-//   "ErrorCode": 0,
-//   "Errors": null,
-//   "IsDone": true,
-//   "ElapsedTime": 1,
-//   "Content": "dasdsadxa",
-//   "CreatedAt": "dsadsadsa",
-//   "Amount": "dsadsadxza"
-// }).then((ds)=>{
-//   console.log('success')
-//   console.log(ds)
-//   console.log("---find-------")
-//   AllTransaction.find().then((it) => {
-//     console.log(it)
-//   })
-// }).catch((ef)=>{
-//   console.log('errrrrrrr')
-//   console.log(ef)
-// })
+AllTransaction.create({
+  "Message": "DSA",
+  "ErrorCode": 0,
+  "Errors": null,
+  "IsDone": true,
+  "ElapsedTime": 1,
+  "Content": "dasdsadxa",
+  "CreatedAt": "dsadsadsa",
+  "Amount": "dsadsadxza"
+}).then((ds)=>{
+  console.log('success')
+  console.log(ds)
+  console.log("---find-------")
+  AllTransaction.find().then((it) => {
+    console.log(it)
+  })
+}).catch((ef)=>{
+  console.log('errrrrrrr')
+  console.log(ef)
+})
 
 
 
-const { MongoClient } = require('mongodb');
+// const { MongoClient } = require('mongodb');
 
-// Connection URL with authentication
-console.log("1")
+// // Connection URL with authentication
+// console.log("1")
 
-const url = 'mongodb://myAdminUser:myAdminPassword@127.0.0.1:27017';
-const client = new MongoClient(url);
-console.log("2")
-// Database Name
-const dbName = 'myDatabase';
+// const url = 'mongodb://myAdminUser:myAdminPassword@127.0.0.1:27017';
+// const client = new MongoClient(url);
+// console.log("2")
+// // Database Name
+// const dbName = 'myDatabase';
 
-async function main() {
-  try {
+// async function main() {
+//   try {
 
-    console.log("33")
-    console.log("33")
-    console.log("33")
-    console.log("33")
+//     console.log("33")
+//     console.log("33")
+//     console.log("33")
+//     console.log("33")
 
-    // Connect to the MongoDB cluster
-    await client.connect();
-    console.log('succfesssss ------')
+//     // Connect to the MongoDB cluster
+//     await client.connect();
+//     console.log('succfesssss ------')
 
-    console.log("Connected correctly to server");
+//     console.log("Connected correctly to server");
 
-    // Access the specified database
-    const db = client.db(dbName);
+//     // Access the specified database
+//     const db = client.db(dbName);
     
-    console.log("4")
+//     console.log("4")
 
-    // Access or create a collection within the database
-    const collection = db.collection('testCollection');
-    console.log("5")
+//     // Access or create a collection within the database
+//     const collection = db.collection('testCollection');
+//     console.log("5")
 
-    // Insert multiple test documents
-    const result = await collection.insertMany([
-      { name: "Test Document 1", value: 123 },
-      { name: "Test Document 2", value: 456 },
-      { name: "Test Document 3", value: 789 }
-    ]);
-    console.log("Inserted documents:", result.insertedIds);
+//     // Insert multiple test documents
+//     const result = await collection.insertMany([
+//       { name: "Test Document 1", value: 123 },
+//       { name: "Test Document 2", value: 456 },
+//       { name: "Test Document 3", value: 789 }
+//     ]);
+//     console.log("Inserted documents:", result.insertedIds);
 
-    // Retrieve and print all documents from the collection
-    const documents = await collection.find({}).toArray();
-    console.log("Documents in 'testCollection':", documents);
+//     // Retrieve and print all documents from the collection
+//     const documents = await collection.find({}).toArray();
+//     console.log("Documents in 'testCollection':", documents);
 
-  } catch (err) {
-    console.log('bir errorrrrr')
-    console.error(err);
-  } finally {
-    await client.close();
-  }
-}
+//   } catch (err) {
+//     console.log('bir errorrrrr')
+//     console.error(err);
+//   } finally {
+//     await client.close();
+//   }
+// }
 
-main().catch((err)=>{console.log("2 erorrrrrr");console.log(err)});
-
-
+// main().catch((err)=>{console.log("2 erorrrrrr");console.log(err)});
 
 
-const port = 3001;
-const server = app.listen(port, () => {
-  console.log(`app running on port ${port}`);
-});
+
+
+// const port = 3001;
+// const server = app.listen(port, () => {
+//   console.log(`app running on port ${port}`);
+// });
 
 
 
