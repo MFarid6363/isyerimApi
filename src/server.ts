@@ -93,26 +93,26 @@ export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction,
   allTransactionsSchema
 );
 
-// AllTransaction.create({
-//   "Message": "DSA",
-//   "ErrorCode": 0,
-//   "Errors": null,
-//   "IsDone": true,
-//   "ElapsedTime": 1,
-//   "Content": "dasdsadxa",
-//   "CreatedAt": "dsadsadsa",
-//   "Amount": "dsadsadxza"
-// }).then((ds)=>{
-//   console.log('success')
-//   console.log(ds)
-//   console.log("---find-------")
-//   AllTransaction.find().then((it) => {
-//     console.log(it)
-//   })
-// }).catch((ef)=>{
-//   console.log('errrrrrrr')
-//   console.log(ef)
-// })
+AllTransaction.create({
+  "Message": "DSA",
+  "ErrorCode": 0,
+  "Errors": null,
+  "IsDone": true,
+  "ElapsedTime": 1,
+  "Content": "dasdsadxa",
+  "CreatedAt": "dsadsadsa",
+  "Amount": "dsadsadxza"
+}).then((ds)=>{
+  console.log('success')
+  console.log(ds)
+  console.log("---find-------")
+  AllTransaction.find().then((it) => {
+    console.log(it)
+  })
+}).catch((ef)=>{
+  console.log('errrrrrrr')
+  console.log(ef)
+})
 
 
 
