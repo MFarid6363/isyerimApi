@@ -65,7 +65,7 @@ let DB = process.env.DATABASE!
 //   console.log("-----")
 // })
 
-const conn2 = mongoose.createConnection('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=Isyerim');
+const conn2 = mongoose.createConnection('mongodb://127.0.0.1:27017/?directConnection=true');
 // console.log(conn2)
 console.log(conn2)
 // conn2.listCollections().then((te)=>{
