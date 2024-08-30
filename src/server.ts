@@ -54,11 +54,11 @@ let DB = process.env.DATABASE!
 // }).catch(err => console.log('mongoo error', err));
 
 
-const conn = mongoose.createConnection(DB);
-export const Transaction: ITransactionModel = conn.model<ITransactionDocument, ITransactionModel>(
-  'Transaction',
-  transactionsSchema
-);
+// const conn = mongoose.createConnection(DB);
+// export const Transaction: ITransactionModel = conn.model<ITransactionDocument, ITransactionModel>(
+//   'Transaction',
+//   transactionsSchema
+// );
 // Transaction.find().then((it)=>{
 //   console.log("-----")
 //   console.log(it)
