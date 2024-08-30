@@ -65,9 +65,9 @@ let DB = process.env.DATABASE!
 //   console.log("-----")
 // })
 
-const conn2 = mongoose.createConnection('mongodb://user:password@127.0.0.1:1234/?authSource=admin');
+// const conn2 = mongoose.createConnection('mongodb://user:password@127.0.0.1:1234/?authSource=admin');
+// // console.log(conn2)
 // console.log(conn2)
-console.log(conn2)
 // conn2.listCollections().then((te)=>{
 //   console.log(te)
 // })
@@ -122,7 +122,11 @@ const dbName = 'myDatabase';
 
 async function main() {
   try {
-    console.log("3")
+
+    console.log("33")
+    console.log("33")
+    console.log("33")
+    console.log("33")
 
     // Connect to the MongoDB cluster
     await client.connect();
