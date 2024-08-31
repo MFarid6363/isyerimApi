@@ -157,6 +157,7 @@ const getTrnasactionList = catchAsync(async (req, res: Response) => {
       "ApiKey": process.env.API_KEY_TEST,
     }
   }).then((isyerimres) => {
+    console.log(isyerimres)
     return res.status(200).json({
       status: "succes",
       // data: isyerimres,
