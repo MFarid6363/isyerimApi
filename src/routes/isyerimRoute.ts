@@ -7,7 +7,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/createPaymentlink', isyerimController.createPaymentLink);
-router.post('/getTransactions', isyerimController.getTrnasactionList);
-router.post('/getTransactionDetail', isyerimController.getTransactionDetail);
+router.get('/getTransactions', isyerimController.getTrnasactionList);
+router.get('/getTransactionDetail', isyerimController.getTransactionDetail);
 
 export default  router;
