@@ -159,7 +159,7 @@ const getTrnasactionList = catchAsync(async (req, res: Response) => {
   }).then((isyerimres) => {
     return res.status(200).json({
       status: "succes",
-      data: isyerimres,
+      // data: isyerimres,
     });
   }).catch((err) => {
     console.log(err)
