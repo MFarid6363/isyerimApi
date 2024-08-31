@@ -38,10 +38,12 @@ let DB = process.env.DATABASE!
 // //   console.log('DB CONNECTION SUCCESFUL');
 // // }).catch(err => console.log('mongoo error', err));
 
-export const conn: any = mongoose.createConnection(DB).asPromise().then((con) => {
-  con.model("Transaction", transactionsSchema)
-  console.log('DB CONNECTION SUCCESFUL');
-}).catch(err => console.log('mongoo error', err));
+export const conn = mongoose.createConnection(DB)
+conn.collection("Transaction")
+export const Transaction: ITransactionModel = conn.model<ITransactionDocument, ITransactionModel>(
+  'Transaction',
+  transactionsSchema
+);
 
 
 // const conn2 = mongoose.createConnection('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.0').asPromise().then((con) => {
@@ -54,11 +56,7 @@ export const conn: any = mongoose.createConnection(DB).asPromise().then((con) =>
 // }).catch(err => console.log('mongoo error', err));
 
 
-// const conn = mongoose.createConnection(DB);
-// export const Transaction: ITransactionModel = conn.model<ITransactionDocument, ITransactionModel>(
-//   'Transaction',
-//   transactionsSchema
-// );
+
 // Transaction.find().then((it)=>{
 //   console.log("-----")
 //   console.log(it)

@@ -3,7 +3,8 @@
 
 import AppError from "../utils/appError"
 import catchAsync from "../utils/catchAsync";
-// import { AllTransaction } from "../server";
+import { AllTransaction } from "../server";
+import { Transaction } from "../server";
 // import Transaction from "../models/transactionModel";
 import axios from 'axios'
 import express, { Request, Response } from 'express';
@@ -111,7 +112,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
     //       data: "error occured",
     //     })
     // console.log(body)
-    axios.post('https://apitest.isyerimpos.com/v1/createPayLink', body, {
+    axios.post('http://apitest.isyerimpos.com/v1/createPayLink', body, {
       headers: {
         "MerchantId": process.env.MERCHANT_ID_TEST,
         "UserId": process.env.USER_ID_TEST,
@@ -125,9 +126,9 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
         // console.log(updatedResponse)
         // console.log(isyerimresponse.data.Message)
-        // await Transaction.create(updatedResponse);
+        await Transaction.create(updatedResponse);
         updatedResponse.Description = "lazimli"
-        // await AllTransaction.create(updatedResponse)
+        await AllTransaction.create(updatedResponse)
         return res.status(200).json({
           status: "succes",
           data: {},
