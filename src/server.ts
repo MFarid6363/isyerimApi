@@ -174,12 +174,13 @@ export const AllTransaction: IAllTransactionModel = conn2.model<IAllTransaction,
 // main().catch((err)=>{console.log("2 erorrrrrr");console.log(err)});
 
 
+const PORT = 3001;
+const HOST = '0.0.0.0';
 
-
-const port = 3001;
-const server = app.listen(port, () => {
-  console.log(`app running on port ${port}`);
+app.listen(PORT, HOST, () => {
+    console.log(`Server is running on http://${HOST}:${PORT}`);
 });
+
 
 
 
