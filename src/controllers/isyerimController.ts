@@ -112,7 +112,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
     //       data: "error occured",
     //     })
     // console.log(body)
-    axios.post('http://apitest.isyerimpos.com/v1/createPayLink', body, {
+    axios.post('https://apitest.isyerimpos.com/v1/createPayLink', body, {
       headers: {
         "MerchantId": process.env.MERCHANT_ID_TEST,
         "UserId": process.env.USER_ID_TEST,
