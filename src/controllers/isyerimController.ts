@@ -29,15 +29,15 @@ let configOptions = nodemailer.createTransport({
 
 const sendEmail = async (recievMail: string, content: string) => {
   // send mail with defined transport object
-  // const info = await configOptions.sendMail({
-  //   from: '"Shop"<scuti-support@honey-palace.com>', // sender address
-  //   to: recievMail, // list of receivers
-  //   subject: "Scutinatural payment link", // Subject line
-  //   // text: "Hello world?", // plain text body
-  //   html: `<b>Hello  here is the link to complete payment: ${content}</b>`, // html body
-  // });
+  const info = await configOptions.sendMail({
+    from: '"Shop"<scuti-support@honey-palace.com>', // sender address
+    to: recievMail, // list of receivers
+    subject: "Scutinatural payment link", // Subject line
+    // text: "Hello world?", // plain text body
+    html: `<b>Hello  here is the link to complete payment: ${content}</b>`, // html body
+  });
 
-  // console.log("Message sent: %s", info.messageId);
+  console.log("Message sent: %s", info.messageId);
   // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 }
 
@@ -47,11 +47,11 @@ const sendEmail = async (recievMail: string, content: string) => {
 // console.log(getRandomCombination(products, 15))
 
 const createPaymentLink = catchAsync(async (req, res: Response) => {
-  if (req.headers.Authorization == 321) {
+  if (req.headers.Authorization == "XMaGnCwkJmyMs3F") {
     //burda ordan gelen olucey
     const body = {
       "Amount": req.body.Amount, //toplam işlem tutarı
-      "ReturnUrl": "https://dev.isyerimpos.com/sanalpos/odeme-linki-olusturma", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
+      "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
       "SendSms": false, //müşteri telefonuna sms gönderimi için
       "Description": "ecom", //işleme ait not
@@ -93,7 +93,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
     // console.log(getRandomCombination(products, 20))
     const body = {
       "Amount": req.body.Amount, //toplam işlem tutarı
-      "ReturnUrl": "https://dev.isyerimpos.com/sanalpos/odeme-linki-olusturma", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
+      "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
       "SendSms": false, //müşteri telefonuna sms gönderimi için
       "Description": "ecom", //işleme ait not
