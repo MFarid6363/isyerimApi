@@ -55,6 +55,12 @@ app.use((req, res, next) => next());
 
 //routes
 app.use('/isyerim', isyerimRoutes);
+app.post('/checkCoupon',((req,res)=>{
+  res.status(404).json({
+        status: 'fail',
+        message: `Not found`,
+      });
+}))
 // app.use('/api/v1/transactionapi/transactions', transactionRoutes);
 // app.use('/api/v1/transactionapi/companyTransactions', companyTransactionRoutes);
 // app.use('/api/v1/transactionapi/subClientTransactions', subClientTransactionRoutes);

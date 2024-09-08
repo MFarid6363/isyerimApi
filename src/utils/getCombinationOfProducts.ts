@@ -1,65 +1,97 @@
-const getRandomCombination=(products: any[], targetAmount: number):any =>{
-    // Helper function to get a random element from an array
-    function getRandomElement(arr: string | any[]) {
-        return arr[Math.floor(Math.random() * arr.length)];
+type Product = {
+    _id: number;
+    productName: string;
+    ficheTech: { label: string }[];
+    brand: string;
+    badge: boolean;
+    des: { en: string };
+    cat: string;
+    pdf: string;
+    extraInfo: string;
+    price: number;
+    img: string;
+};
+
+type BasketItem = {
+    productName: string;
+    unitPrice: number;
+    quantity: number;
+};
+
+type BasketResult = {
+    basket: BasketItem[];
+    totalAmount: string;
+    targetAmount: number;
+    appliedDiscount: string;
+};
+
+function generateRandomBasket(products: Product[], targetAmount: number): BasketResult {
+    const tolerance = 3; // Tolerance range for the total basket amount
+    const maxDiscount = 0.15; // Maximum discount of 15%
+
+    function getRandomInt(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Helper function to generate a random combination of products
-    function findCombination(remainingAmount: number, currentCombo: { [x: string]: {
-        UnitPrice: any; Count: number; 
-}; }) {
-        // Base case: if the remaining amount is 0, return the current combination
-        if (remainingAmount === 0) {
-            return currentCombo;
+    function applyDiscountIfNeeded(basket: BasketItem[], totalAmount: number, targetAmount: number): { discountedAmount: number, discountPercent: number } {
+        const difference = targetAmount - totalAmount;
+        if (Math.abs(difference) <= tolerance) {
+            return { discountedAmount: totalAmount, discountPercent: 0 }; // Total is within tolerance, no discount needed
+        } else {
+            const discountPercent = Math.min(maxDiscount, Math.abs(difference) / targetAmount);
+            const discountedAmount = totalAmount * (1 - discountPercent);
+            return { discountedAmount, discountPercent };
         }
-
-        // Filter products that can be added without exceeding the remaining amount
-        const availableProducts = products.filter(product => product.price <= remainingAmount);
-
-        // If no products can be added, return null (no valid combination)
-        if (availableProducts.length === 0) {
-            return null;
-        }
-
-        // Pick a random product from the available products
-        const randomProduct = getRandomElement(availableProducts);
-        
-        // Add the random product to the current combination
-        if (!currentCombo[randomProduct.name]) {
-            currentCombo[randomProduct.name] = { Count: 0, UnitPrice: randomProduct.price };
-        }
-        currentCombo[randomProduct.name].Count++;
-
-        // Recursively try to find the remaining combination
-        return findCombination(remainingAmount - randomProduct.price, currentCombo);
     }
 
-    // Start the recursive search for a combination
-    const rawCombination = findCombination(targetAmount, {});
+    let basket: BasketItem[] = [];
+    let totalAmount = 0;
+    let appliedDiscount = 0;
 
-    // If no combination is found, try again
-    if (!rawCombination) return getRandomCombination(products, targetAmount);
+    // Shuffle products array for randomness
+    const shuffledProducts = [...products].sort(() => 0.5 - Math.random());
 
-    // Transform the raw combination into the desired format
-    const result = Object.keys(rawCombination).map(key => ({
-        Name: key,
-        Count: rawCombination[key].Count,
-        UnitPrice: rawCombination[key].UnitPrice
-    }));
+    for (const product of shuffledProducts) {
+        const maxQty = Math.max(1, Math.floor(targetAmount / product.price));
+        const quantity = getRandomInt(1, Math.min(maxQty, 5)); // Choose a random quantity (1 to 5)
 
-    return result;
+        const productTotal = product.price * quantity;
+
+        if (totalAmount + productTotal > targetAmount + tolerance) {
+            continue; // Skip adding if it exceeds target amount beyond tolerance
+        }
+
+        basket.push({ 
+            productName: product.productName, 
+            unitPrice: product.price, 
+            quantity 
+        });
+        totalAmount += productTotal;
+
+        if (totalAmount >= targetAmount - tolerance && totalAmount <= targetAmount + tolerance) {
+            break; // Stop once we're within the tolerance range
+        }
+    }
+
+    if (totalAmount < targetAmount - tolerance || totalAmount > targetAmount + tolerance) {
+        const { discountedAmount, discountPercent } = applyDiscountIfNeeded(basket, totalAmount, targetAmount);
+        totalAmount = discountedAmount;
+        appliedDiscount = discountPercent * 100; // Convert to percentage
+    }
+
+    return {
+        basket,
+        totalAmount: totalAmount.toFixed(2),
+        targetAmount,
+        appliedDiscount: appliedDiscount > 0 ? `${appliedDiscount.toFixed(2)}%` : "0%" // Format discount
+    };
 }
-// Example usage
-const products = [
-    { name: "testprod1", price: 1 },
-    { name: "testprod2", price: 2 },
-    { name: "testprod3", price: 1 },
-    { name: "testprod4", price: 2 },
-    { name: "testprod5", price: 3 },
-    { name: "testprod6", price: 6 }
-];
 
-export default getRandomCombination
+
+
+
+
+export default generateRandomBasket
 // const targetAmount = 100;
 // const combination = getRandomCombination(products, targetAmount);
 // console.log(combination);

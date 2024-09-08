@@ -63,7 +63,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         "City": req.body.Customer.City, //müşteri ili
         "Address": req.body.Customer.Address, //müşteri adresi
       },
-      "Products": getRandomCombination(products, 20)
+      "Products": getRandomCombination(products, req.body.Amount)
     }
     // return res.status(200).json({
     //       status: "succes",
