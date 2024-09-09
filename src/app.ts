@@ -1,71 +1,89 @@
-import express, { Request, Response, NextFunction, Application } from 'express';
+import express from 'express';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import hpp from 'hpp';
 import path from 'path';
-import cors from 'cors';
 
-// Importing custom modules with their types
-import isyerimRoutes from './routes/isyerimRoute';
+import isyerimRoutes from './routes/isyerimRoute'
+
+import cors from "cors";
 import AppError from './utils/appError';
 import errorController from './controllers/errorController';
 
-const app: Application = express();
+const app = express();
 app.use(cors());
 
-// Set the static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Set security HTTP headers
 app.use(helmet());
 
-// Limit requests from the same API
 const limiter = rateLimit({
   max: 1000,
-  windowMs: 60 * 60 * 1000, // 1 hour
-  message: 'Too many requests from this API, please try again in an hour',
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many request from this api,please try again in an hour',
 });
+// 1)middlewares
 app.use('/api', limiter);
 
-// Development logging
 app.use(morgan('dev'));
 
-// Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 
-// Data sanitization against NoSQL query injection
+//data sanitization agaist noSql query injection
 app.use(mongoSanitize());
+// Data sanitization agaist XSS
+//app.use(xss());
 
-// Prevent parameter pollution
+//prevent parameter polution
 app.use(
   hpp({
     whitelist: ['duration'],
   })
 );
 
-// Serve static files
 app.use(express.static(`${__dirname}/public`));
 
-// Routes
+app.use((req, res, next) => next());
+
+// app.get('/api/v1/tours',getAllTours )
+// app.post('/api/v1/tours', createTour)
+// app.get('/api/v1/tours/:id',getTour )
+// app.patch('/api/v1/tours/:id', updatedTour)
+// app.delete('/api/v1/tours/:id', deleteTour)
+
+//routes
 app.use('/isyerim', isyerimRoutes);
-
-// Check coupon route (dummy handler for now)
-app.post('/checkCoupon', (req: Request, res: Response) => {
+app.post('/checkCoupon',((req,res)=>{
   res.status(404).json({
-    status: 'fail',
-    message: 'Not found',
-  });
-});
+        status: 'fail',
+        message: `Not found`,
+      });
+}))
+// app.use('/api/v1/transactionapi/transactions', transactionRoutes);
+// app.use('/api/v1/transactionapi/companyTransactions', companyTransactionRoutes);
+// app.use('/api/v1/transactionapi/subClientTransactions', subClientTransactionRoutes);
+// app.use('/api/v1/transactionapi/masterAccounts', masterAccountsRoutes);
+// app.use('/api/v1/transactionapi/subClients', subClientRoutes );
+// app.use('/api/v1/transactionapi/webHook', webHookRoutes );
+// app.use('/api/v1/transactionapi/healthcheck', healthCheck);
+// app.use('/api/v1/transactionapi/yapily', yapilyRoutes);
 
-// Handling all undefined routes
-app.all('*', (req: Request, res: Response, next: NextFunction) => {
+
+app.all('*', (req, res, next) => {
+  //   res.status(404).json({
+  //     status: 'fail',
+  //     message: `Can't find ${req.originalUrl} on this server`,
+  //   });
+  //   const err = new Error(`Can't find ${req.originalUrl} on this server`);
+  //   err.statusCode = 404;
+  //   err.status = 'fail';
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
-// Global error handling middleware
 app.use(errorController);
+//start server
 
-// Export the app
 export default app;
+
