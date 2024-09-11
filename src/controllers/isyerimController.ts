@@ -84,7 +84,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         updatedResponse.Discount = 0
         updatedResponse.Amount = req.body.Amount
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
-        updatedResponse.Body = JSON.stringify(updatedBody)
+        updatedResponse.Body = updatedBody
         console.log(updatedResponse)
         await AllTransaction.create(updatedResponse)
       }
@@ -134,7 +134,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
           let updatedBody: any = cloneDeep(body)
           updatedResponse.Discount = 0
           updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
-          updatedResponse.Body = JSON.stringify(updatedBody)
+          updatedResponse.Body = updatedBody
           console.log(updatedResponse)
           await Transaction.create(updatedResponse);
           updatedResponse.Description = "lazimli"
