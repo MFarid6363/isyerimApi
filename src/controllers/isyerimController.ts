@@ -80,6 +80,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         updatedResponse.Discount = 0
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
         updatedResponse.Body = body
+        console.log(isyerimresponse)
         await AllTransaction.create(isyerimresponse)
       }
       return res.status(200).json({
@@ -128,6 +129,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
           updatedResponse.Discount = 0
           updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
           updatedResponse.Body = body
+          console.log(isyerimresponse)
           await Transaction.create(updatedResponse);
           updatedResponse.Description = "lazimli"
           await AllTransaction.create(updatedResponse)
