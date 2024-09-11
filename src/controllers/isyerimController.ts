@@ -11,6 +11,7 @@ import express, { Request, Response } from 'express';
 import getRandomCombination from "../utils/getCombinationOfProducts";
 import nodemailer from "nodemailer"
 import { dailyProducts } from "./productList";
+import { IIsyerimBody } from "../types/Transaction";
 const products = dailyProducts;
 
 let configOptions = nodemailer.createTransport({
@@ -37,7 +38,7 @@ const sendEmail = async (recievMail: string, content: string) => {
     html: `<b>Hello  here is the link to complete payment: ${content}</b>`, // html body
   });
 
-  console.log("Message sent: %s", info.messageId);
+  // console.log("Message sent: %s", info.messageId);
   // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 }
 
@@ -48,11 +49,8 @@ const sendEmail = async (recievMail: string, content: string) => {
 
 const createPaymentLink = catchAsync(async (req, res: Response) => {
   if (req.headers.authorization == "XMaGnCwkJmyMs3F") {
-    console.log('budcsadsadsadsadsadsasdas')
-    let productsComb:{ basket: { Name: string; Count: number; UnitPrice: number; }[]; totalPrice: number; discount: number; } = getRandomCombination(products, req?.body?.Amount)
-    //burda ordan gelen olucey
-    console.log(productsComb)
-    const body = {
+    let productsComb: { basket: { Name: string; Count: number; UnitPrice: number; }[]; totalPrice: number; discount: number; } = getRandomCombination(products, req?.body?.Amount)
+    const body:IIsyerimBody = {
       "Amount": req?.body?.Amount, //toplam işlem tutarı
       "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
@@ -66,23 +64,19 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         "City": req?.body?.Customer?.City, //müşteri ili
         "Address": req?.body?.Customer?.Address, //müşteri adresi
       },
-      "Products": productsComb.basket
+      "Products": productsComb.basket,
     }
-    // console.log(getRandomCombination(products, req?.body?.Amount))
-    // return res.status(200).json({
-    //       status: "succes",
-    //       data: "error occured",
-    //     })
-    // console.log(body)
-    console.log('fdsfds')
     axios.post('https://apitest.isyerimpos.com/v1/createPayLink', body, {
       headers: {
         "MerchantId": process.env.MERCHANT_ID_TEST,
         "UserId": process.env.USER_ID_TEST,
         "ApiKey": process.env.API_KEY_TEST,
       }
-    }).then((isyerimresponse: any) => {
-      // console.log(isyerimresponse.data)
+    }).then(async (isyerimresponse: any) => {
+      body.Discount = productsComb.discount
+      if (isyerimresponse.data.ErrorCode == 0) {
+        await AllTransaction.create(body)
+      }
       return res.status(200).json({
         data: isyerimresponse.data,
       });
@@ -94,9 +88,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
     })
   }
   else {
-
-    // console.log(getRandomCombination(products, 20))
-    const body = {
+    const body:IIsyerimBody = {
       "Amount": req?.body?.Amount,//toplam işlem tutarı
       "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
@@ -110,13 +102,12 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         "City": req?.body?.Customer?.City, //müşteri ili
         "Address": req?.body?.Customer?.Address, //müşteri adresi
       },
-      "Products": req?.body?.Products
+      "Products": req?.body?.Products,
     }
     // return res.status(200).json({
     //       status: "succes",
     //       data: "error occured",
     //     })
-    // console.log(body)
     axios.post('https://apitest.isyerimpos.com/v1/createPayLink', body, {
       headers: {
         "MerchantId": process.env.MERCHANT_ID_TEST,
@@ -125,27 +116,28 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       }
     }).then((isyerimresponse: any) => {
       var event = new Date();
-      sendEmail(req.body.Customer.Email, isyerimresponse.data.Content).then(async () => {
-        let updatedResponse = isyerimresponse.data
-        updatedResponse.Amount = req.body.Amount
-        updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
-        // console.log(updatedResponse)
-        // console.log(isyerimresponse.data.Message)
-        await Transaction.create(updatedResponse);
-        updatedResponse.Description = "lazimli"
-        await AllTransaction.create(updatedResponse)
-        return res.status(200).json({
-          status: "succes",
-          data: {},
-        });
-      }).catch((err) => {
-        console.log(err)
-        return res.status(400).json({
-          status: "Error",
-          data: "error occured",
-        });
-      })
-    }).catch((err) => {
+      if (isyerimresponse.data.ErrorCode == 0) {
+        sendEmail(req.body.Customer.Email, isyerimresponse.data.Content).then(async () => {
+          let updatedResponse = isyerimresponse.data
+          updatedResponse.Amount = req.body.Amount
+          updatedResponse.Discount = 0
+          updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
+          await Transaction.create(updatedResponse);
+          updatedResponse.Description = "lazimli"
+          await AllTransaction.create(updatedResponse)
+          return res.status(200).json({
+            status: "succes",
+            data: {},
+          });
+        }).catch((err) => {
+          return res.status(400).json({
+            status: "Error",
+            data: "error occured",
+          });
+        })
+      }
+    }
+    ).catch((err) => {
       return res.status(400).json({
         status: "succes",
         data: err,
@@ -163,13 +155,11 @@ const getTrnasactionList = catchAsync(async (req, res: Response) => {
       "ApiKey": process.env.API_KEY_TEST,
     }
   }).then((isyerimres) => {
-    // console.log(isyerimres)
     return res.status(200).json({
       status: "succes",
       data: isyerimres.data,
     });
   }).catch((err) => {
-    console.log(err)
     return res.status(400).json({
       status: "error",
       data: err.response.data,
@@ -178,7 +168,6 @@ const getTrnasactionList = catchAsync(async (req, res: Response) => {
 })
 
 const getTransactionDetail = catchAsync(async (req, res: Response) => {
-  // console.log(req.query.uid)
   axios.post(`https://apitest.isyerimpos.com/v1/paymentStatus?uid=${req.query.uid}`, {}, {
     headers: {
       "MerchantId": process.env.MERCHANT_ID_TEST,
@@ -191,8 +180,6 @@ const getTransactionDetail = catchAsync(async (req, res: Response) => {
       data: isyerimresponse,
     });
   }).catch((err) => {
-    // console.log(err.response)
-    // console.log('errorrrrrrrr')
     return res.status(400).json({
       status: "succes",
       data: err,

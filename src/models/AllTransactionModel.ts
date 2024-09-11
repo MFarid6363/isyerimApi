@@ -24,10 +24,6 @@ export const allTransactionsSchema = new Schema<IAllTransaction>(
       type: Number,
       required: true,
     },
-    Content: {
-      type: String,
-      required: true,
-    },
     CreatedAt: {
       type: String,
       required: true,

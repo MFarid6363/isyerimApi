@@ -1,67 +1,56 @@
 import { Model } from "mongoose";
 
-export interface ITransactionDocument extends Document {  
-    Message: string,
-    ErrorCode: number,
-    Errors: Array<any>|null,
-    IsDone: boolean,
-    ElapsedTime: number,
-    Content: string
-    CreatedAt:string
-    Amount:string|number,
-    Products:String
+export interface ITransactionDocument extends Document {
+  Message: string,
+  ErrorCode: number,
+  Errors: Array<any> | null,
+  IsDone: boolean,
+  ElapsedTime: number,
+  CreatedAt: string
+  Amount: string | number,
+  Products: String,
+  Discount: number
 }
-export interface IAllTransaction extends Document {  
-    Message: string,
-    ErrorCode: number,
-    Errors: Array<any>|null,
-    IsDone: boolean,
-    ElapsedTime: number,
-    Content: string
-    CreatedAt:string
-    Amount:string|number,
+export interface IAllTransaction extends Document {
+  Message: string,
+  ErrorCode: number,
+  Errors: Array<any> | null,
+  IsDone: boolean,
+  ElapsedTime: number,
+  CreatedAt: string
+  Amount: string | number,
+  Discount: number
+
 }
 
 export interface ITransactionModel extends Model<ITransactionDocument> {
-   
+
 }
 export interface IAllTransactionModel extends Model<IAllTransaction> {
-   
+
 }
 
-export interface IApiTransaction {
-    paymentId: string;
-    date: string;
-    senderAccount: string;
-    senderAccountCurrency: string;
-    paymentAmount: number;
-    paymentFee: number;
-    beneficiaryName: string;
-    paymentDetails: string;
-    paymentStatus: string;
-    clientOrderId: string;
-    hasLk?:boolean;
-  }
-  
-  export interface IApiTransactionnDetail {
-    paymentId: string;
-    date: string;
-    senderAccount: string;
-    senderAccountCurrency: string;
-    paymentAmount: number;
-    paymentFee: number;
-    transactionCurrency: string;
-    transactionAmount: number;
-    beneficiaryAccount: string;
-    beneficiaryBankCode: string | null;
-    beneficiaryBankName: string | null;
-    beneficiaryType: string;
-    beneficiaryName: string;
-    beneficiaryLastName: string;
-    beneficiaryCompanyName: string | null;
-    beneficiaryIdNumber: string;
-    paymentDetails: string;
-    paymentStatus: string;
-    paymentStatusDescription: string;
-    clientOrderId: string;
-  }
+export interface IIsyerimBody {
+  Amount: any;
+  ReturnUrl: string;
+  InstallmentActive: boolean;
+  SendSms: boolean;
+  Description: string;
+  Customer:
+  {
+    Name: any;
+    Surname: any;
+    Phone: any;
+    Email: any;
+    City: any;
+    Address:
+    any;
+  };
+  Products: {
+    Name: string;
+    Count: number;
+    UnitPrice: number;
+  }[];
+  Discount?:number
+}
+

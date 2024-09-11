@@ -24,10 +24,6 @@ export const transactionsSchema = new Schema<ITransactionDocument>(
       type: Number,
       required: true,
     },
-    Content: {
-      type: String,
-      required: true,
-    },
     CreatedAt: {
       type: String,
       required: true,
