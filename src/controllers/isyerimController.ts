@@ -78,10 +78,11 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       if (isyerimresponse.data.ErrorCode == 0) {
         let updatedResponse = isyerimresponse.data
         updatedResponse.Discount = 0
+        updatedResponse.Amount = req.body.Amount
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
         updatedResponse.Body = body
-        console.log(isyerimresponse)
-        await AllTransaction.create(isyerimresponse)
+        console.log(updatedResponse)
+        await AllTransaction.create(updatedResponse)
       }
       return res.status(200).json({
         data: isyerimresponse.data,
