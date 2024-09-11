@@ -11,6 +11,8 @@ import isyerimRoutes from './routes/isyerimRoute'
 import cors from "cors";
 import AppError from './utils/appError';
 import errorController from './controllers/errorController';
+import generateRandomBasket from './utils/getCombinationOfProducts';
+import { dailyProducts } from './controllers/productList';
 
 const app = express();
 app.use(cors());
@@ -70,7 +72,7 @@ app.post('/checkCoupon',((req,res)=>{
 // app.use('/api/v1/transactionapi/healthcheck', healthCheck);
 // app.use('/api/v1/transactionapi/yapily', yapilyRoutes);
 
-
+console.log(generateRandomBasket(dailyProducts,5101.49))
 app.all('*', (req, res, next) => {
   //   res.status(404).json({
   //     status: 'fail',

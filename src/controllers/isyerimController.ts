@@ -47,29 +47,34 @@ const sendEmail = async (recievMail: string, content: string) => {
 // console.log(getRandomCombination(products, 15))
 
 const createPaymentLink = catchAsync(async (req, res: Response) => {
-  if (req.headers.Authorization == "XMaGnCwkJmyMs3F") {
+  if (req.headers.authorization == "XMaGnCwkJmyMs3F") {
+    console.log('budcsadsadsadsadsadsasdas')
+    let productsComb:{ basket: { Name: string; Count: number; UnitPrice: number; }[]; totalPrice: number; discount: number; } = getRandomCombination(products, req?.body?.Amount)
     //burda ordan gelen olucey
+    console.log(productsComb)
     const body = {
-      "Amount": req.body.Amount, //toplam işlem tutarı
+      "Amount": req?.body?.Amount, //toplam işlem tutarı
       "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
       "SendSms": false, //müşteri telefonuna sms gönderimi için
       "Description": "ecom", //işleme ait not
       "Customer": {
-        "Name": req.body.Customer.Name, //müşteri adı
-        "Surname": req.body.Customer.Surname, //müşteri soyadı
-        "Phone": req.body.Customer.Phone, //* müşteriye ait telefon numarası
-        "Email": req.body.Customer.Email, //müşteri eposta
-        "City": req.body.Customer.City, //müşteri ili
-        "Address": req.body.Customer.Address, //müşteri adresi
+        "Name": req?.body?.Customer?.Name, //müşteri adı
+        "Surname": req?.body?.Customer?.Surname, //müşteri soyadı
+        "Phone": req?.body?.Customer?.Phone, //* müşteriye ait telefon numarası
+        "Email": req?.body?.Customer?.Email, //müşteri eposta
+        "City": req?.body?.Customer?.City, //müşteri ili
+        "Address": req?.body?.Customer?.Address, //müşteri adresi
       },
-      "Products": getRandomCombination(products, req.body.Amount)
+      "Products": productsComb.basket
     }
+    // console.log(getRandomCombination(products, req?.body?.Amount))
     // return res.status(200).json({
     //       status: "succes",
     //       data: "error occured",
     //     })
     // console.log(body)
+    console.log('fdsfds')
     axios.post('https://apitest.isyerimpos.com/v1/createPayLink', body, {
       headers: {
         "MerchantId": process.env.MERCHANT_ID_TEST,
@@ -77,14 +82,14 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         "ApiKey": process.env.API_KEY_TEST,
       }
     }).then((isyerimresponse: any) => {
+      // console.log(isyerimresponse.data)
       return res.status(200).json({
-        status: "succes",
-        data: isyerimresponse,
+        data: isyerimresponse.data,
       });
     }).catch((err) => {
       return res.status(400).json({
         status: "Error",
-        data: err,
+        data: (err.data),
       });
     })
   }
@@ -92,20 +97,20 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
 
     // console.log(getRandomCombination(products, 20))
     const body = {
-      "Amount": req.body.Amount, //toplam işlem tutarı
+      "Amount": req?.body?.Amount,//toplam işlem tutarı
       "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
       "SendSms": false, //müşteri telefonuna sms gönderimi için
       "Description": "ecom", //işleme ait not
       "Customer": {
-        "Name": req.body.Customer.Name, //müşteri adı
-        "Surname": req.body.Customer.Surname, //müşteri soyadı
-        "Phone": req.body.Customer.Phone, //* müşteriye ait telefon numarası
-        "Email": req.body.Customer.Email, //müşteri eposta
-        "City": req.body.Customer.City, //müşteri ili
-        "Address": req.body.Customer.Address, //müşteri adresi
+        "Name": req?.body?.Customer?.Name, //müşteri adı
+        "Surname": req?.body?.Customer?.Surname, //müşteri soyadı
+        "Phone": req?.body?.Customer?.Phone, //* müşteriye ait telefon numarası
+        "Email": req?.body?.Customer?.Email, //müşteri eposta
+        "City": req?.body?.Customer?.City, //müşteri ili
+        "Address": req?.body?.Customer?.Address, //müşteri adresi
       },
-      "Products": req.body.Products
+      "Products": req?.body?.Products
     }
     // return res.status(200).json({
     //       status: "succes",
