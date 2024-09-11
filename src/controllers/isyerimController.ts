@@ -12,6 +12,8 @@ import getRandomCombination from "../utils/getCombinationOfProducts";
 import nodemailer from "nodemailer"
 import { dailyProducts } from "./productList";
 import { IIsyerimBody } from "../types/Transaction";
+import { cloneDeep } from "lodash";
+
 const products = dailyProducts;
 
 let configOptions = nodemailer.createTransport({
@@ -76,11 +78,13 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       var event = new Date();
 
       if (isyerimresponse.data.ErrorCode == 0) {
-        let updatedResponse = isyerimresponse.data
+        let updatedResponse = cloneDeep(isyerimresponse.data)
+        let updatedBody: any = cloneDeep(body)
+        updatedBody.ProductsCombination = productsComb
         updatedResponse.Discount = 0
         updatedResponse.Amount = req.body.Amount
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
-        updatedResponse.Body = body
+        updatedResponse.Body = updatedBody
         console.log(updatedResponse)
         await AllTransaction.create(updatedResponse)
       }
@@ -126,7 +130,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       var event = new Date();
       if (isyerimresponse.data.ErrorCode == 0) {
         sendEmail(req.body.Customer.Email, isyerimresponse.data.Content).then(async () => {
-          let updatedResponse = isyerimresponse.data
+          let updatedResponse = cloneDeep(isyerimresponse.data)
           updatedResponse.Discount = 0
           updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
           updatedResponse.Body = body
