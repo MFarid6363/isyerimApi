@@ -83,6 +83,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         data: isyerimresponse.data,
       });
     }).catch((err) => {
+      console.log(err)
       return res.status(400).json({
         status: "Error",
         data: (err.data),
