@@ -73,7 +73,9 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         "ApiKey": process.env.API_KEY_TEST,
       }
     }).then(async (isyerimresponse: any) => {
+      var event = new Date();
       body.Discount = productsComb.discount
+      body.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
       if (isyerimresponse.data.ErrorCode == 0) {
         await AllTransaction.create(body)
       }
@@ -119,7 +121,6 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       if (isyerimresponse.data.ErrorCode == 0) {
         sendEmail(req.body.Customer.Email, isyerimresponse.data.Content).then(async () => {
           let updatedResponse = isyerimresponse.data
-          updatedResponse.Amount = req.body.Amount
           updatedResponse.Discount = 0
           updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
           await Transaction.create(updatedResponse);

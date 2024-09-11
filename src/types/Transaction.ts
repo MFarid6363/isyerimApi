@@ -51,6 +51,7 @@ export interface IIsyerimBody {
     Count: number;
     UnitPrice: number;
   }[];
-  Discount?:number
+  Discount?:number;
+  CreatedAt?:string
 }
 
