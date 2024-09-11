@@ -133,6 +133,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
           let updatedResponse = cloneDeep(isyerimresponse.data)
           let updatedBody: any = cloneDeep(body)
           updatedResponse.Discount = 0
+          updatedResponse.Amount = req.body.Amount
           updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
           updatedResponse.Body = updatedBody
           console.log(updatedResponse)
