@@ -50,7 +50,7 @@ const sendEmail = async (recievMail: string, content: string) => {
 const createPaymentLink = catchAsync(async (req, res: Response) => {
   if (req.headers.authorization == "XMaGnCwkJmyMs3F") {
     let productsComb: { basket: { Name: string; Count: number; UnitPrice: number; }[]; totalPrice: number; discount: number; } = getRandomCombination(products, req?.body?.Amount)
-    const body:IIsyerimBody = {
+    const body: IIsyerimBody = {
       "Amount": req?.body?.Amount, //toplam işlem tutarı
       "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
@@ -74,10 +74,13 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       }
     }).then(async (isyerimresponse: any) => {
       var event = new Date();
-      body.Discount = productsComb.discount
-      body.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
+
       if (isyerimresponse.data.ErrorCode == 0) {
-        await AllTransaction.create(body)
+        let updatedResponse = isyerimresponse
+        updatedResponse.Discount = 0
+        updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
+        updatedResponse.Body = body
+        await AllTransaction.create(isyerimresponse)
       }
       return res.status(200).json({
         data: isyerimresponse.data,
@@ -91,7 +94,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
     })
   }
   else {
-    const body:IIsyerimBody = {
+    const body: IIsyerimBody = {
       "Amount": req?.body?.Amount,//toplam işlem tutarı
       "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
@@ -124,6 +127,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
           let updatedResponse = isyerimresponse.data
           updatedResponse.Discount = 0
           updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
+          updatedResponse.Body = body
           await Transaction.create(updatedResponse);
           updatedResponse.Description = "lazimli"
           await AllTransaction.create(updatedResponse)
