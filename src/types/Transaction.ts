@@ -10,7 +10,7 @@ export interface ITransactionDocument extends Document {
   Amount: string | number,
   Products: String,
   Discount: number,
-  Body:any
+  Body:string
 
 }
 export interface IAllTransaction extends Document {
@@ -22,8 +22,7 @@ export interface IAllTransaction extends Document {
   CreatedAt: string
   Amount: string | number,
   Discount: number,
-  Body:any
-
+  Body:string
 }
 
 export interface ITransactionModel extends Model<ITransactionDocument> {

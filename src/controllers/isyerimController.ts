@@ -84,7 +84,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
         updatedResponse.Discount = 0
         updatedResponse.Amount = req.body.Amount
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
-        updatedResponse.Body = updatedBody
+        updatedResponse.Body = JSON.stringify(updatedBody)
         console.log(updatedResponse)
         await AllTransaction.create(updatedResponse)
       }
@@ -131,10 +131,11 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       if (isyerimresponse.data.ErrorCode == 0) {
         sendEmail(req.body.Customer.Email, isyerimresponse.data.Content).then(async () => {
           let updatedResponse = cloneDeep(isyerimresponse.data)
+          let updatedBody: any = cloneDeep(body)
           updatedResponse.Discount = 0
           updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
-          updatedResponse.Body = body
-          console.log(isyerimresponse)
+          updatedResponse.Body = JSON.stringify(updatedBody)
+          console.log(updatedResponse)
           await Transaction.create(updatedResponse);
           updatedResponse.Description = "lazimli"
           await AllTransaction.create(updatedResponse)
