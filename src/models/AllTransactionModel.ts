@@ -30,6 +30,9 @@ export const allTransactionsSchema = new Schema<IAllTransaction>(
     },
     Amount:{
       type:String
+    },
+    Body:{
+      type:Schema.Types.Mixed
     }
   },
   {

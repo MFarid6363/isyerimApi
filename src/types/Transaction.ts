@@ -22,7 +22,7 @@ export interface IAllTransaction extends Document {
   CreatedAt: string
   Amount: string | number,
   Discount: number,
-  Body:string
+  Body:any
 }
 
 export interface ITransactionModel extends Model<ITransactionDocument> {
