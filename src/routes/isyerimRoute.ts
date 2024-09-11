@@ -9,5 +9,6 @@ var router = express.Router();
 router.post('/createPaymentlink', isyerimController.createPaymentLink);
 router.get('/getTransactions', isyerimController.getTrnasactionList);
 router.get('/getTransactionDetail', isyerimController.getTransactionDetail);
+router.get('/getAllTransactionFromDB', isyerimController.getAllTransactionFromDB);
 
 export default  router;

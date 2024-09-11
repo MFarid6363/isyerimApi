@@ -163,6 +163,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
 
 const getTrnasactionList = catchAsync(async (req, res: Response) => {
   // 2022-04-20
+
   axios.post(`https://apitest.isyerimpos.com/v1/payments?date=${req.query.date}`, {}, {
     headers: {
       "MerchantId": process.env.MERCHANT_ID_TEST,
@@ -180,6 +181,23 @@ const getTrnasactionList = catchAsync(async (req, res: Response) => {
       data: err.response.data,
     })
   })
+})
+
+const getAllTransactionFromDB = catchAsync(async (req, res: Response) => {
+  if (req.headers.authorization == "ET4AezJkvcxFngYaZBPtqQCAXPCibB") {
+  
+    let updated = await AllTransaction.find()
+    return res.status(200).json({
+      status: "error",
+      data: updated,
+    })
+  }
+  else{
+    return res.status(400).json({
+      status: "error",
+    })
+  }
+  // 2022-04-20
 })
 
 const getTransactionDetail = catchAsync(async (req, res: Response) => {
@@ -205,5 +223,6 @@ const getTransactionDetail = catchAsync(async (req, res: Response) => {
 export default {
   createPaymentLink,
   getTrnasactionList,
-  getTransactionDetail
+  getTransactionDetail,
+  getAllTransactionFromDB
 }
