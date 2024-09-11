@@ -76,7 +76,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       var event = new Date();
 
       if (isyerimresponse.data.ErrorCode == 0) {
-        let updatedResponse = isyerimresponse
+        let updatedResponse = isyerimresponse.data
         updatedResponse.Discount = 0
         updatedResponse.CreatedAt = event.toLocaleString('en-GB', { timeZone: 'Europe/London' })
         updatedResponse.Body = body
@@ -138,6 +138,7 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
             data: {},
           });
         }).catch((err) => {
+          console.log(err)
           return res.status(400).json({
             status: "Error",
             data: "error occured",
@@ -146,8 +147,9 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
       }
     }
     ).catch((err) => {
+      console.log(err)
       return res.status(400).json({
-        status: "succes",
+        status: "error",
         data: err,
       });
     })
