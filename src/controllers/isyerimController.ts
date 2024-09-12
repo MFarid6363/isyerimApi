@@ -53,18 +53,18 @@ const createPaymentLink = catchAsync(async (req, res: Response) => {
   if (req.headers.authorization == "XMaGnCwkJmyMs3F") {
     let productsComb: { basket: { Name: string; Count: number; UnitPrice: number; }[]; totalPrice: number; discount: number; } = getRandomCombination(products, req?.body?.Amount)
     const body: IIsyerimBody = {
-      "Amount": req?.body?.Amount, //toplam işlem tutarı
+      "Amount": req?.body?.Amount || "", //toplam işlem tutarı
       "ReturnUrl": "https://scutinatural.shop/", //bir eticaret sitesi üzerinden işlem yapılıyorsa, işlem sonucunun iletileceği adres
       "InstallmentActive": true, //taksit yapılıp yapılamayacağı
       "SendSms": false, //müşteri telefonuna sms gönderimi için
       "Description": "ecom", //işleme ait not
       "Customer": {
-        "Name": req?.body?.Customer?.Name, //müşteri adı
-        "Surname": req?.body?.Customer?.Surname, //müşteri soyadı
-        "Phone": req?.body?.Customer?.Phone, //* müşteriye ait telefon numarası
-        "Email": req?.body?.Customer?.Email, //müşteri eposta
-        "City": req?.body?.Customer?.City, //müşteri ili
-        "Address": req?.body?.Customer?.Address, //müşteri adresi
+        "Name": req?.body?.Customer?.Name || "", //müşteri adı
+        "Surname": req?.body?.Customer?.Surname || "", //müşteri soyadı
+        "Phone": req?.body?.Customer?.Phone || "", //* müşteriye ait telefon numarası
+        "Email": req?.body?.Customer?.Email || "", //müşteri eposta
+        "City": req?.body?.Customer?.City || "", //müşteri ili
+        "Address": req?.body?.Customer?.Address || "", //müşteri adresi
       },
       "Products": productsComb.basket,
     }
@@ -187,14 +187,14 @@ const getTrnasactionList = catchAsync(async (req, res: Response) => {
 
 const getAllTransactionFromDB = catchAsync(async (req, res: Response) => {
   if (req.headers.authorization == "ET4AezJkvcxFngYaZBPtqQCAXPCibB") {
-  
+
     let updated = await AllTransaction.find()
     return res.status(200).json({
       status: "error",
       data: updated,
     })
   }
-  else{
+  else {
     return res.status(400).json({
       status: "error",
     })
